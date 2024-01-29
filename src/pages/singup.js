@@ -43,7 +43,7 @@ const Singup = () => {
           if (res.ok) {
             return res.json().then((data) => {
           
-        console.log('user has succesfully sing in')
+        console.log(`user has succesfully  ${isLogin ?  'Signed up':'Logged in' }`)
               // Navigate('/products');
             });
           } else {
