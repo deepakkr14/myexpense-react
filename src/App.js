@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route , useNavigate } from 'react-router-dom';
-import { useState, useContext, lazy, Suspense } from "react";
+import {  lazy, Suspense } from "react";
 import Singup from "./pages/singup";
 import Hero from "./pages/Hero";
 function App() {

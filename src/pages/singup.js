@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, NavLink } from "react-bootstrap";
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Hero from "./Hero";
 
 const Singup = () => {
   const Navigate = useNavigate();
@@ -18,13 +17,13 @@ const Singup = () => {
     e.preventDefault();
     const emailInput = emailRef.current.value;
     const passwordInput = passwordRef.current.value;
-   let cnfPassword;
-   if(!isLoginPage){ 
-    console.log(isLoginPage)
-   cnfPassword = cnfPasswordRef.current.value;
-    if (cnfPassword !== passwordInput) alert("Passord not matched");
-    console.log(emailInput, passwordInput, cnfPassword);
-  }
+    let cnfPassword;
+    if (!isLoginPage) {
+      console.log(isLoginPage);
+      cnfPassword = cnfPasswordRef.current.value;
+      if (cnfPassword !== passwordInput) alert("Passord not matched");
+      console.log(emailInput, passwordInput, cnfPassword);
+    }
 
     let url;
     if (isLoginPage) {
@@ -48,18 +47,25 @@ const Singup = () => {
       .then((res) => {
         if (res.ok) {
           return res.json().then((data) => {
-           alert(
-              `user has succesfully  ${isLoginPage ?  "Logged in":"Signed up" }`
+            alert(
+              `user has succesfully  ${isLoginPage ? "Logged in" : "Signed up"}`
             );
-            if(!isLoginPage){switchAuthModeHandler()}
-            if(isLoginPage){Navigate('/hero');}
+            if (!isLoginPage) {
+              
+              switchAuthModeHandler();
+              
+            }
+            if (isLoginPage) {
+              localStorage.setItem('token',data.idToken)
+              Navigate("/hero");
+            }
           });
         } else {
           return res.json().then((data) => {
             let errorMessage = "Authentication failed!";
-            // if (data && data.error && data.error.message) {
-            //   errorMessage = data.error.message;
-            // }
+            if (data && data.error && data.error.message) {
+              errorMessage = data.error.message;
+            }
 
             throw new Error(errorMessage);
           });
@@ -81,7 +87,7 @@ const Singup = () => {
               <div className="col-12">
                 <div className="mb-5">
                   <h2 className="h4 text-center">
-                    {isLoginPage ?  "Sign In" :"Sign Up"}
+                    {isLoginPage ? "Sign In" : "Sign Up"}
                   </h2>
                 </div>
               </div>
@@ -145,7 +151,7 @@ const Singup = () => {
                       className="btn bsb-btn-xl btn-primary"
                       type="submit"
                     >
-                      {isLoginPage ?  "Sign In":"Sign Up" }
+                      {isLoginPage ? "Sign In" : "Sign Up"}
                     </Button>
                   </div>
                 </div>
@@ -156,13 +162,13 @@ const Singup = () => {
                 <hr className="mt-2 mb-2 border-secondary-subtle" />
                 <p className="m-0 text-secondary text-center">
                   {isLoginPage
-                    ? "Don't have a account? " : "Already have an account? "
-                   }
+                    ? "Don't have a account? "
+                    : "Already have an account? "}
                   <NavLink
                     className="link-primary text-decoration-none"
                     onClick={switchAuthModeHandler}
                   >
-                    {isLoginPage ?  "Create new":"Sign in" }
+                    {isLoginPage ? "Create new" : "Sign in"}
                   </NavLink>
 
                   <NavLink onClick={switchAuthModeHandler}>

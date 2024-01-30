@@ -1,0 +1,12 @@
+.profile{
+    background-color: #e87373;
+    border-radius: 10px;
+    padding: 4px;
+}
+.hero{
+    display: flex;
+    justify-content: end;
+}
+.pform{
+    background-color:rgb(212, 228, 222);
+}
