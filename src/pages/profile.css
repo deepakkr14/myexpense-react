@@ -5,9 +5,17 @@
 }
 .hero{
     display: flex;
-    justify-content: end;
+    /* justify-content: end; */
 }
 .pform{
+    display: flex;
     background-color:rgb(212, 228, 222);
     padding-bottom: 10px;
+}
+.Ebtn.on{
+background-color: #e87373;
+}
+.Ebtn.off{
+background-color: #afe9a8;
+
 }
