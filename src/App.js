@@ -2,16 +2,21 @@ import "./App.css";
 import { BrowserRouter, Routes, Route , useNavigate } from 'react-router-dom';
 import {  lazy, Suspense } from "react";
 import Singup from "./pages/singup";
-import Hero from "./pages/Hero";
+// import Hero from "./pages/Hero";
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const Hero = lazy(() => import("./pages/Hero") );
+
+// import ForgotPassword from "./pages/ForgotPassword";
 function App() {
   return (
     <BrowserRouter>
     
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className="loader"></div>}>
         <Routes>
 
           <Route path="/" element={<Singup />} />
        <Route path="/hero" element={<Hero />} />
+       <Route path="/forget" element={<ForgotPassword />} />
            {/*   <Route path="/cart" element={<Cart />} />
           <Route path="/" element={<Home />} />
           <Route path="/addMovie" element={<MovieAddForm />} />

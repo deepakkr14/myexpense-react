@@ -7,7 +7,6 @@ const ProfileUpdate = (props) => {
   const newName = useRef();
   const newPhoto = useRef();
   const imageRef = useRef();
-  const EmailVerified = !!Email;
   useEffect(() => {
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCAddUzy56S_Fd9ynLhR2NrwXQPUB1M2i8",
@@ -29,10 +28,10 @@ const ProfileUpdate = (props) => {
         imageRef.current.src =
           data.users[0].photoUrl ||
           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-        setEmail(data.users[0].email);
+        setEmail((prev)=>data.users[0].email);
       });
     // .catch((error)=>console.log(error))
-  }, [Email]);
+  }, []);
   const verifyEmail = async () => {
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCAddUzy56S_Fd9ynLhR2NrwXQPUB1M2i8",
@@ -154,12 +153,12 @@ const ProfileUpdate = (props) => {
             </Col>
             <Col md={4}>
               <Button
-                className={`Ebtn ${!EmailVerified ? "on" : "off"}`}
+                className={`Ebtn ${!Email ? "on" : "off"}`}
                 variant="outline-primary"
                 onClick={verifyEmail}
-                disabled={EmailVerified}
+                disabled={Email}
               >
-                {EmailVerified ? "Email Verified" : "Verify Email"}
+                {Email ? "Email Verified" : "Verify Email"}
               </Button>
             </Col>
             <Col md={4}>

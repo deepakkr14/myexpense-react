@@ -1,4 +1,4 @@
-import React, { Fragment, lazy } from "react";
+import React, { Fragment, lazy,Suspense } from "react";
 import "./profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
@@ -21,6 +21,7 @@ navigate('/')
 }
   return (
     <Fragment>
+      <Suspense fallback={<div>Loading...</div>}>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#home">
@@ -63,6 +64,7 @@ navigate('/')
       </div>
       <hr />
       {profileForm && <ProfileUpdate view={viewform} />}
+      </Suspense>
     </Fragment>
   );
 };

@@ -12,7 +12,9 @@ const Singup = () => {
   const passwordRef = useRef();
   const emailRef = useRef();
   const cnfPasswordRef = useRef();
-
+const forget=()=>{
+  Navigate('/forget')
+}
   const handleSubmit = (e) => {
     e.preventDefault();
     const emailInput = emailRef.current.value;
@@ -44,12 +46,12 @@ const Singup = () => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => {
+      .then(res => {
         if (res.ok) {
           return res.json().then((data) => {
-            alert(
-              `user has succesfully  ${isLoginPage ? "Logged in" : "Signed up"}`
-            );
+            // alert(
+            //   `user has succesfully  ${isLoginPage ? "Logged in" : "Signed up"}`
+            // );
             if (!isLoginPage) {
               
               switchAuthModeHandler();
@@ -171,7 +173,7 @@ const Singup = () => {
                     {isLoginPage ? "Create new" : "Sign in"}
                   </NavLink>
 
-                  <NavLink onClick={switchAuthModeHandler}>
+                  <NavLink onClick={forget}>
                     <u>Forgot Password</u>
                   </NavLink>
                 </p>
