@@ -31,7 +31,7 @@ const ProfileUpdate = (props) => {
         setEmail((prev)=>data.users[0].email);
       });
     // .catch((error)=>console.log(error))
-  }, []);
+  }, [Email]);
   const verifyEmail = async () => {
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCAddUzy56S_Fd9ynLhR2NrwXQPUB1M2i8",
@@ -91,6 +91,7 @@ const ProfileUpdate = (props) => {
         if (res.ok) {
           return res.json().then((data) => {
             alert(`user details has succesfully  updated`);
+            setEmail(data.users[0].email);
           });
         } else {
           return res.json().then((data) => {
@@ -148,7 +149,7 @@ const ProfileUpdate = (props) => {
           <Row className="mt-4 d-flex justify-content-end">
             <Col md={4}>
               <Button variant="outline-success" onClick={submitUpdate}>
-                Submit
+                Update
               </Button>
             </Col>
             <Col md={4}>

@@ -9,6 +9,8 @@
 
   /* HTML: <div class="loader"></div> */
 .loader {
+  position: relative;
+  left: 50%;
   width: fit-content;
   font-weight: bold;
   font-family: sans-serif;
