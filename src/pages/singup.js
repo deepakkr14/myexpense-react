@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, Fragment } from "react";
 import { Form, Button, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,9 +12,10 @@ const Singup = () => {
   const passwordRef = useRef();
   const emailRef = useRef();
   const cnfPasswordRef = useRef();
-const forget=()=>{
-  Navigate('/forget')
-}
+  const forget = () => {
+    Navigate("/forget");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const emailInput = emailRef.current.value;
@@ -46,20 +47,15 @@ const forget=()=>{
         "Content-Type": "application/json",
       },
     })
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json().then((data) => {
-            // alert(
-            //   `user has succesfully  ${isLoginPage ? "Logged in" : "Signed up"}`
-            // );
             if (!isLoginPage) {
-              
               switchAuthModeHandler();
-              
             }
             if (isLoginPage) {
-              localStorage.setItem('token',data.idToken)
-              Navigate("/hero");
+              localStorage.setItem("token", data.idToken);
+              Navigate("/verify");
             }
           });
         } else {
@@ -68,20 +64,18 @@ const forget=()=>{
             if (data && data.error && data.error.message) {
               errorMessage = data.error.message;
             }
-
             throw new Error(errorMessage);
           });
         }
       })
-
       .catch((err) => {
         alert(err.message);
       });
   };
 
   return (
-    // <section className="bg-light p-3 p-md-4 p-xl-5">
-    <div className="row justify-content-center mt-5 ">
+
+   <div className="row justify-content-center mt-5 ">
       <div className="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
         <div className="card border border-light-subtle rounded-4">
           <div className="card-body p-3 p-md-4 p-xl-5">
@@ -132,7 +126,7 @@ const forget=()=>{
                   <div className="col-12">
                     <div className="form-floating mb-3">
                       <input
-                        type="password"
+                      type="password"
                         className="form-control"
                         name="password"
                         id="cnfpassword"
@@ -167,8 +161,8 @@ const forget=()=>{
                     ? "Don't have a account? "
                     : "Already have an account? "}
                   <NavLink
-                    className="link-primary text-decoration-none"
-                    onClick={switchAuthModeHandler}
+                  className="link-primary text-decoration-none"
+                  onClick={switchAuthModeHandler}
                   >
                     {isLoginPage ? "Create new" : "Sign in"}
                   </NavLink>
@@ -182,8 +176,8 @@ const forget=()=>{
           </div>
         </div>
       </div>
-    </div>
-    // </section>
+    </div> 
+    /* // </section> */
   );
 };
 

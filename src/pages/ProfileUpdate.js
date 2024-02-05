@@ -122,7 +122,6 @@ const ProfileUpdate = (props) => {
               <Button
                 className={`Ebtn ${!emailStatus ? "on" : "off"}`}
                 variant="outline-primary"
-                onClick={verifyEmail}
                 disabled={emailStatus}
               >
                 {emailStatus ? "Email Verified" : "Verify Email"}

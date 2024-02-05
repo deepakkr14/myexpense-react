@@ -2,10 +2,10 @@ import "./App.css";
 import { BrowserRouter, Routes, Route , useNavigate } from 'react-router-dom';
 import {  lazy, Suspense } from "react";
 import Singup from "./pages/singup";
+import EmailVerification from "./pages/EmailVerification";
 // import Hero from "./pages/Hero";
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const Hero = lazy(() => import("./pages/Hero") );
-
 // import ForgotPassword from "./pages/ForgotPassword";
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
           <Route path="/" element={<Singup />} />
        <Route path="/hero" element={<Hero />} />
        <Route path="/forget" element={<ForgotPassword />} />
+       <Route path="/verify" element={<EmailVerification />} />
            {/*   <Route path="/cart" element={<Cart />} />
           <Route path="/" element={<Home />} />
           <Route path="/addMovie" element={<MovieAddForm />} />
