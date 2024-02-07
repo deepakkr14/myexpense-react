@@ -1,4 +1,4 @@
-import React, { useRef, useState, Fragment } from "react";
+import React, { useRef, useState } from "react";
 import { Form, Button, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -55,7 +55,8 @@ const Singup = () => {
             }
             if (isLoginPage) {
               localStorage.setItem("token", data.idToken);
-              Navigate("/verify");
+              Navigate("/hero");
+              // Navigate("/verify");
             }
           });
         } else {
