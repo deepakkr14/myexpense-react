@@ -1,5 +1,6 @@
 import React, { Fragment, lazy, Suspense, useEffect } from "react";
-import { Key, PencilSquare, Trash } from "react-bootstrap-icons";
+import axios from "axios";
+import { PencilSquare, Trash } from "react-bootstrap-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Stats from "../components/Stats";
 import { useState, useContext } from "react";
@@ -9,32 +10,57 @@ import expenseData from "../Store/context";
 // import ProfileUpdate from "./ProfileUpdate";
 const Hero = () => {
   const expenseCtx = useContext(expenseData);
-  const Navigate = useNavigate();
-  const [Amount, setAmount] = useState("");
-  const [Description, setDescription] = useState("");
+  // const Navigate = useNavigate();
+  const [Amount, setAmount] = useState(500);
+  const [Description, setDescription] = useState("new");
   const [Category, setCategory] = useState("Rent");
-
-  let token = localStorage.getItem("token");
-
-  const handleExpense = (e) => {
-    e.preventDefault();
-    const expenseData = {
-      id: Math.random(),
-      Description,
-      Amount,
-      Category,
-    };
-    expenseCtx.addItem(expenseData);
-    console.log(expenseCtx.items);
-    console.log(expenseData);
-    setAmount("");
-    setDescription("");
+  const [TableData, setTableData] = useState([]);
+  // let token = localStorage.getItem("token");
+  const fetchUserData = async () => {
+    try {
+      const response = await axios(
+        "https://expensetracker-796b0-default-rtdb.firebaseio.com/exp.json"
+      );
+      if (response.status == 200) {
+        setTableData(Object.entries(response.data));
+      }
+        } catch (error) {
+      console.log(error);
+    }
   };
+  useEffect(() => {
+    fetchUserData();
+    console.log("Use effect running");
+  }, []);
+
+  const handleExpense = async (e) => {
+    e.preventDefault();
+    try {
+      const expenseData = {
+        id: Math.random(),
+        Description,
+        Amount,
+        Category,
+      };
+      console.log(expenseData);
+
+      const response = await axios.post(
+        "https://expensetracker-796b0-default-rtdb.firebaseio.com/exp.json",
+        expenseData
+      );
+      // console.log(response);
+      console.log("expense added succesfully");
+      setAmount("");
+      setDescription("");
+      fetchUserData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const edit = () => {console.log('editingIndex')};
   return (
     <Fragment>
       <Navbar />
-
-      {/* <i className="bi bi-bar-chart text-primary" style={{ fontSize: 40 }}></i> */}
       <Stats />
       <div className="card">
         <div className="card-header">
@@ -86,7 +112,7 @@ const Hero = () => {
 
             <button
               type="submit"
-              className="btn-fill pull-right btn btn-info mt-3"
+              className="btn-fill  btn btn-info mt-3"
             >
               Submit
             </button>
@@ -112,19 +138,19 @@ const Hero = () => {
               </tr>
             </thead>
             <tbody>
-              {expenseCtx.items.map((item) => (
-                <tr key={item.id}>
-                  <td>{expenseCtx.items.length}</td>
-                  <td>{item.Description}</td>
-                  <td>${item.Amount}</td>
-                  <td>{item.Category}</td>
+              {TableData.map((item) => (
+                <tr key={item[1].id}>
+                  <td>{TableData.length}</td>
+                  <td>{item[1].Description}</td>
+                  <td>${item[1].Amount}</td>
+                  <td>{item[1].Category}</td>
                   <td>
-                    <PencilSquare size={20} />
+                    <PencilSquare size={20} onClick={() => edit(item.id)} />
                     <Trash size={20} className="ms-3" color="red" />
                   </td>
                 </tr>
               ))}
-            
+              {/* <TableData/> */}
             </tbody>
           </table>
         </div>
