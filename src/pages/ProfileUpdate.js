@@ -112,7 +112,7 @@ const ProfileUpdate = (props) => {
                 variant="outline-primary"
                 disabled={emailStatus}
               >
-                {emailStatus ? "Email Verified" : "Verify Email"}
+                {emailStatus ? "Email Verified" : "Verify Email Incomplete"}
               </Button>
             </Col>
             <Col md={4}>
