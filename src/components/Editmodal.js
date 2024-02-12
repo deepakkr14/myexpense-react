@@ -8,7 +8,7 @@ function EditModal(props) {
   const [Amount, setAmount] = useState(props.itemDet[1].Amount);
   const [Description, setDescription] = useState(props.itemDet[1].Description);
   const [Category, setCategory] = useState(props.itemDet[1].Category);
-  console.log(props.itemDet);
+ 
 
   const submitUpdate = async () => {
     const expenseData = {

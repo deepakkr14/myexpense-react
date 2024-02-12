@@ -1,4 +1,6 @@
 import React, { Fragment, lazy, Suspense, useEffect } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import { ExpenseActions } from "../Store/ExpenseSlice";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { PencilSquare, Trash } from "react-bootstrap-icons";
@@ -7,10 +9,17 @@ import Stats from "../components/Stats";
 import { useState, useContext } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import expenseData from "../Store/context";
+import expenseData from "../Store/AuthSlice";
 import Modal from "../components/Editmodal";
 const Hero = () => {
-  const expenseCtx = useContext(expenseData);
+  const dispatch= useDispatch();
+  const total= useSelector(state=>state.expense.total)
+  const expensesT= useSelector(state=>state.expense.allExpenses)
+  console.log(expensesT)
+  if(total>=10000){
+    console.log('you can buy premium')
+  }
+console.log(total)
   // const Navigate = useNavigate();
   const [Amount, setAmount] = useState('');
   const [Description, setDescription] = useState("new");
@@ -36,7 +45,7 @@ const Hero = () => {
         // console.log(response)
         else {
           setTableData(Object.entries(response.data));
-          console.log(Object.entries(response.data));
+         
         }
       }
     } catch (error) {
@@ -71,6 +80,7 @@ const Hero = () => {
         setAmount("");
         setDescription("");
         fetchUserData();
+        dispatch(ExpenseActions.addExpense(expenseData))
       } catch (err) {
         console.log(err);
       }
@@ -88,6 +98,7 @@ const Hero = () => {
       );
       console.log(response);
       console.log("Expense Deleted Successfully");
+      dispatch(ExpenseActions.deleteExpense(id))
       fetchUserData();
     } catch (error) {
       console.log(error);
@@ -116,7 +127,7 @@ const Hero = () => {
                   <label>Amount</label>
                   <input
                     placeholder="Enter price"
-                    type="text"
+                    type="number"
                     className="form-control"
                     value={Amount}
                     onChange={(e) => setAmount(e.target.value)}

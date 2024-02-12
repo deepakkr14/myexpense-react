@@ -2,8 +2,12 @@ import React, { useRef, useState } from "react";
 import { Form, Button, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {useDispatch,useSelector} from 'react-redux'
+import { AuthActions } from "../Store/AuthSlice";
 
 const Singup = () => {
+  const dispatch= useDispatch();
+  const user= useSelector(state=>state.auth.token)
   const Navigate = useNavigate();
   const [isLoginPage, setIsLogin] = useState(false);
   const switchAuthModeHandler = () => {
@@ -55,6 +59,7 @@ const Singup = () => {
             }
             if (isLoginPage) {
               localStorage.setItem("token", data.idToken);
+              dispatch(AuthActions.login(data.idToken))
               Navigate("/hero");
               // Navigate("/verify");
             }

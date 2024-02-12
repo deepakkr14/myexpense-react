@@ -2,8 +2,10 @@ import React, { useEffect, Fragment, useState } from "react";
 import "./profile.css";
 import axios from "axios";
 import { Button, Form, Row, Col } from "react-bootstrap";
-
+import {useDispatch,useSelector} from 'react-redux'
+import { AuthActions } from "../Store/AuthSlice";
 const ProfileUpdate = (props) => {
+  const dispatch= useDispatch();
   const [Email, setEmail] = useState("");
   const [emailStatus, Verified] = useState(false);
   const [newName, setName] = useState("");
@@ -11,6 +13,7 @@ const ProfileUpdate = (props) => {
   const [imageRef, setUrl] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
+  const token=useSelector(state=>state.auth.token)
   const nameChangeHandler = (event) => setName(event.target.value);
   const photoChangeHandler = (event) => setPhoto(event.target.value);
   useEffect(() => {
@@ -19,7 +22,8 @@ const ProfileUpdate = (props) => {
         console.log("Use effect running");
         const data = await axios.post(
           "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCAddUzy56S_Fd9ynLhR2NrwXQPUB1M2i8",
-          { idToken: localStorage.getItem("token") }
+          { idToken:token}
+          // { idToken: localStorage.getItem("token") }
         );
         // console.log(data.data.users[0]);
         setName(data.data.users[0].displayName);
@@ -45,7 +49,8 @@ const ProfileUpdate = (props) => {
       const response = await axios.post(
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCAddUzy56S_Fd9ynLhR2NrwXQPUB1M2i8",
         {
-          idToken: localStorage.getItem("token"),
+          idToken: token,
+          // idToken: localStorage.getItem("token"),
           displayName: newName,
           photoUrl: newPhoto,
           returnSecureToken: true,

@@ -4,8 +4,13 @@ import { NavLink, Navbar, Nav, Container, Button } from "react-bootstrap";
 import { PersonCircle } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {useDispatch} from 'react-redux'
+import { AuthActions } from "../Store/AuthSlice";
+
+
 const ProfileUpdate = lazy(() => import("./ProfileUpdate"));
 const Navigationbar = () => {
+  const dispatch= useDispatch();
   const [profileForm, setprofileForm] = useState(false);
   const viewform = () => {
     setprofileForm(!profileForm);
@@ -15,6 +20,7 @@ const Navigationbar = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    dispatch(AuthActions.logOut())
     navigate("/");
   };
   return (
