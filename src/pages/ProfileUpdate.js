@@ -2,10 +2,8 @@ import React, { useEffect, Fragment, useState } from "react";
 import "./profile.css";
 import axios from "axios";
 import { Button, Form, Row, Col } from "react-bootstrap";
-import {useDispatch,useSelector} from 'react-redux'
-import { AuthActions } from "../Store/AuthSlice";
+import {useSelector} from 'react-redux'
 const ProfileUpdate = (props) => {
-  const dispatch= useDispatch();
   const [Email, setEmail] = useState("");
   const [emailStatus, Verified] = useState(false);
   const [newName, setName] = useState("");

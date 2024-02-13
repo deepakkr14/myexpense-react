@@ -1,5 +1,5 @@
 import React, { Fragment, lazy, Suspense, useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ExpenseActions } from "../Store/ExpenseSlice";
 import axios from "axios";
 import { Button } from "react-bootstrap";
@@ -7,32 +7,32 @@ import { PencilSquare, Trash } from "react-bootstrap-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Stats from "../components/Stats";
 import { useState, useContext } from "react";
-import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import expenseData from "../Store/AuthSlice";
+import AuthData from "../Store/AuthSlice";
 import Modal from "../components/Editmodal";
+const Navbar = lazy(() => import("./Navbar"));
 const Hero = () => {
-  const dispatch= useDispatch();
-  const total= useSelector(state=>state.expense.total)
-  const expensesT= useSelector(state=>state.expense.allExpenses)
-  console.log(expensesT)
-  if(total>=10000){
-    console.log('you can buy premium')
-  }
-console.log(total)
+  const dispatch = useDispatch();
+  const expensesT = useSelector((state) => state.expense.allExpenses);
+
+  const darkMode = useSelector((state) => state.auth.theme);
+  // document.getElementsByTagName('html').addAttribute("data-bs-theme="dark"")
+  console.log(expensesT);
   // const Navigate = useNavigate();
-  const [Amount, setAmount] = useState('');
+  const [Amount, setAmount] = useState("");
   const [Description, setDescription] = useState("new");
   const [Category, setCategory] = useState("Rent");
   const [TableData, setTableData] = useState([]);
-  const [show, setShow] = useState(false);
+  const [show, setShowEditModal] = useState(false);
   const [editItemId, setEditItemId] = useState(null);
+  // MODAL HIDE AND SHOW
   const handleClose = () => {
     fetchUserData();
-    setShow(false);
+    setShowEditModal(false);
   };
-  const handleShow = () => setShow(true);
+  const handleShow = () => setShowEditModal(true);
 
+  // FETCHING DATA FROM  FIREBASE
   const fetchUserData = async () => {
     try {
       const response = await axios(
@@ -45,22 +45,28 @@ console.log(total)
         // console.log(response)
         else {
           setTableData(Object.entries(response.data));
-         
+          console.log(Object.entries(response.data));
+          dispatch(ExpenseActions.addExpense(Object.entries(response.data)));
         }
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchUserData();
+    document
+      .querySelector("html")
+      .setAttribute("data-bs-theme", darkMode ? "dark" : "light");
     console.log("Use effect running");
-  }, []);
+  }, [darkMode]);
 
+  // SUBMITTING EXPENSES
   const handleExpense = async (e) => {
     e.preventDefault();
 
-    if (Description.length === 0 || Amount.length===0) {
+    if (Description.length === 0 || Amount.length === 0) {
       alert("enter a valid value");
     } else {
       try {
@@ -80,17 +86,19 @@ console.log(total)
         setAmount("");
         setDescription("");
         fetchUserData();
-        dispatch(ExpenseActions.addExpense(expenseData))
+        // dispatch(ExpenseActions.addExpense(expenseData))
       } catch (err) {
         console.log(err);
       }
     }
   };
+  // EDITING EXPENSES
   const editExp = (id) => {
     console.log("editingIndex", id);
     setEditItemId(id);
-    setShow(true);
+    setShowEditModal(true);
   };
+  // DELETING EXPENSE
   const deleteExp = async (id) => {
     try {
       const response = await axios.delete(
@@ -98,7 +106,7 @@ console.log(total)
       );
       console.log(response);
       console.log("Expense Deleted Successfully");
-      dispatch(ExpenseActions.deleteExpense(id))
+      // dispatch(ExpenseActions.deleteExpense(id))
       fetchUserData();
     } catch (error) {
       console.log(error);
@@ -172,38 +180,39 @@ console.log(total)
       </div>
       {/* </div> */}
 
-      <div className="strpied-tabled-with-hover card">
+      <div className="strpied-tabled-with-hover card ">
         <div className="card-header">
           <h4 className="card-title">Your Expenses</h4>
         </div>
         <div className="table-full-width table-responsive  card-body">
-
+          {TableData.length === 0 && <h3>no data available</h3>}
           <table className="table-hover table-striped table">
             <thead>
-        {(TableData.length===0) ? <h3>no data available</h3> :
-             ( <tr>
-                <th>Sr</th>
+              <tr>
                 <th>Description</th>
                 <th>Amount</th>
                 <th>Category</th>
                 <th>Actions</th>
-              </tr>)}
+              </tr>
             </thead>
             <tbody>
               {TableData.map((item) => (
                 <tr key={item[0]}>
-                  <td>{TableData.length}</td>
                   <td>{item[1].Description}</td>
                   <td>${item[1].Amount}</td>
                   <td>{item[1].Category}</td>
                   <td>
-                    <PencilSquare size={20} onClick={() => editExp(item)}  style={{ cursor: 'pointer' }} />
+                    <PencilSquare
+                      size={20}
+                      onClick={() => editExp(item)}
+                      style={{ cursor: "pointer" }}
+                    />
                     <Trash
                       size={20}
                       className="ms-3"
                       color="red"
                       onClick={() => deleteExp(item[0])}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                     />
                   </td>
                 </tr>

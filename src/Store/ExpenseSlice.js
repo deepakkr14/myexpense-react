@@ -1,22 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 const ExpenseSlice = createSlice({
-    name: "expenses",
-    initialState: {total:0,
-    allExpenses:[],},
-    reducers: {
-      addExpense(state,action) {
-        state.allExpenses.push(action.payload);
-        state.total+=Number(action.payload.Amount);
-      },
-      deleteExpense(state,action) {
-      const existing=  state.allExpenses.findIndex(each=> each.id===action.payload);
-        state.allExpenses.filter(existing);
-        state.total-=state.allExpenses[existing].Amount;
-       
-      },
+  name: "expenses",
+  initialState: { total: 0, allExpenses: [] },
+  reducers: {
+    addExpense(state, action) {
+      state.allExpenses=(action.payload);
+      let sum=0
+      action.payload.map((item) =>sum+=Number(item[1].Amount));
+      state.total=sum
     },
-  });
-  export const ExpenseActions=ExpenseSlice.actions;
- 
-  // const store = configureStore({ reducer:AuthSlice.reducer });
-  export default ExpenseSlice.reducer;
+    deleteExpense(state, action) {
+     
+      state.allExpenses=[];
+      state.total = 0;
+    },
+  },
+});
+export const ExpenseActions = ExpenseSlice.actions;
+
+// const store = configureStore({ reducer:AuthSlice.reducer });
+export default ExpenseSlice.reducer;
