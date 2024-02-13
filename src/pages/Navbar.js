@@ -1,13 +1,14 @@
 import React, { Fragment, useState, lazy } from "react";
 import { NavLink, Navbar, Nav, Container, Button } from "react-bootstrap";
 // import { NavLink } from "react-router-dom";
-import { PersonCircle } from "react-bootstrap-icons";
+import {  PersonCircle } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useDispatch,useSelector} from 'react-redux'
 import { AuthActions } from "../Store/AuthSlice";
 import { ExpenseActions } from "../Store/ExpenseSlice";
 import ThemeToggle  from '../components/Theme'
+import Download from "./Download";
 
 const ProfileUpdate = lazy(() => import("./ProfileUpdate"));
 const Navigationbar = () => {
@@ -62,9 +63,10 @@ dispatch(AuthActions.premiumActivate())
               Logout
             </Button>
             { total>10000 && <Button className="mx-2" variant="outline-success" onClick={premium}>
-              Use premium features
+              Use premium
             </Button>}
             {ispremium && <ThemeToggle/>}
+            {ispremium && <Download/>}
           </Navbar.Collapse>
         </Container>
       </Navbar>

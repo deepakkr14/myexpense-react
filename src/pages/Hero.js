@@ -179,7 +179,6 @@ const Hero = () => {
         </div>
       </div>
       {/* </div> */}
-
       <div className="strpied-tabled-with-hover card ">
         <div className="card-header">
           <h4 className="card-title">Your Expenses</h4>
