@@ -16,7 +16,7 @@ const Singup = () => {
     const emailInput = emailRef.current.value;
     const passwordInput = passwordRef.current.value;
     const cnfPassword = cnfPasswordRef.current.value;
-    if (cnfPassword !== passwordInput) alert("bhago");
+    if (cnfPassword !== passwordInput) alert("password not matched");
     console.log(emailInput, passwordInput, cnfPassword);
 
     let url;
@@ -64,40 +64,7 @@ const Singup = () => {
   };
 
   return (
-    // <Form classNameName="m-5" onSubmit={handleSubmit}>
-    //   <h2>{isLogin ? "Sing Up"  : "Sign In"}</h2>
-    //   <Form.Group classNameName="mb-3" >
-    //     <Form.Label>Email address</Form.Label>
-    //     <Form.Control type="email"
-    //           ref={emailRef}
-    //         placeholder="Enter email"
-    //         required/>
-    //     <Form.Text classNameName="text-muted">
-    //       We'll never share your email with anyone else.
-    //     </Form.Text>
-    //   </Form.Group>
-
-    //   <Form.Group classNameName="mb-3">
-    //     <Form.Label>Password</Form.Label>
-    //     <Form.Control type="password"
-    //      ref={passwordRef}
-    //       placeholder="Enter password"
-    //       required/>
-    //   </Form.Group>
-
-    //   <Form.Group classNameName="mb-3">
-    //     <Form.Label> Confirm Password</Form.Label>
-    //     <Form.Control type="password"
-    //         ref={cnfPasswordRef}
-    //       placeholder="Confirm password"
-    //       required/>
-    //   </Form.Group>
-
-    //   <Button variant="primary" type="submit">
-    //     Submit
-    //   </Button>
-    //   <NavLink onClick={switchAuthModeHandler}><u>{isLogin ? "Already a user":"New user"  }</u></NavLink>
-    // </Form>
+    
 
     <section className="bg-light p-3 p-md-4 p-xl-5">
     

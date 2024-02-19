@@ -2,12 +2,11 @@ import React, { useRef, useState } from "react";
 import { Form, Button, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {useDispatch,useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import { AuthActions } from "../Store/AuthSlice";
 
 const Singup = () => {
   const dispatch= useDispatch();
-  const user= useSelector(state=>state.auth.token)
   const Navigate = useNavigate();
   const [isLoginPage, setIsLogin] = useState(false);
   const switchAuthModeHandler = () => {
@@ -59,7 +58,9 @@ const Singup = () => {
             }
             if (isLoginPage) {
               localStorage.setItem("token", data.idToken);
-              dispatch(AuthActions.login(data.idToken))
+              localStorage.setItem("username", data.email);
+              // dispatch(AuthActions.login(data.idToken))
+              dispatch(AuthActions.login({token:data.idToken, userId:data.email}))
               Navigate("/hero");
               // Navigate("/verify");
             }
@@ -81,7 +82,7 @@ const Singup = () => {
 
   return (
 
-   <div className="row justify-content-center mt-5 ">
+   <div className="row justify-content-center p-5 ">
       <div className="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
         <div className="card border border-light-subtle rounded-4">
           <div className="card-body p-3 p-md-4 p-xl-5">

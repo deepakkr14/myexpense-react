@@ -34,13 +34,13 @@ const ProfileUpdate = (props) => {
         Verified(data.data.users[0].emailVerified);
       } catch (error) {
         console.log(error);
-        if (error.response.data.error.message == "INVALID_ID_TOKEN")
+        if (error.response.data.error.message === "INVALID_ID_TOKEN")
           alert("INVALID_ID_TOKEN");
         window.location = "/";
       }
     })();
     //  fetchData()
-  }, [Email]);
+  }, [Email,token]);
   const submitUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -55,7 +55,7 @@ const ProfileUpdate = (props) => {
         }
       );
       console.log(response);
-      if (response.status == 200) {
+      if (response.status === 200) {
         alert(`user details has succesfully  updated`);
         setEmail(response.data.email);
       }

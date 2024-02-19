@@ -1,13 +1,12 @@
 import React, { useContext, useState } from "react";
 import { DatabaseDown } from "react-bootstrap-icons";
 import { Container } from "react-bootstrap";
-import { UseSelector, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { CSVLink } from "react-csv";
 
 const Downloadi = () => {
   const expenseCtxA=useSelector(state=>state.expense.allExpenses);
 const extractData = expenseCtxA.map(item => item[1]);
-console.log(extractData)
 
   return (
     <Container>

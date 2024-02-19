@@ -8,20 +8,14 @@ import {useDispatch,useSelector} from 'react-redux'
 import { AuthActions } from "../Store/AuthSlice";
 import { ExpenseActions } from "../Store/ExpenseSlice";
 import ThemeToggle  from '../components/Theme'
-import Download from "./Download";
+import Download from "../components/Download";
 
 const ProfileUpdate = lazy(() => import("./ProfileUpdate"));
 const Navigationbar = () => {
   const dispatch= useDispatch();
   const total= useSelector(state=>state.expense.total)
   const ispremium= useSelector(state=>state.auth.ispremium)
-  console.log(total)
   const [profileForm, setprofileForm] = useState(false);
-  // const [buyPremium, setbuyPremium] = useState(false);
-  // if(total>=10000){
-  //   console.log('you can buy premium')
-  //   // setbuyPremium(true)
-  // }
   const viewform = () => {
     setprofileForm(!profileForm);
   };
@@ -56,17 +50,17 @@ dispatch(AuthActions.premiumActivate())
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav>
               <NavLink >
-                <PersonCircle size={50} className="mx-2" onClick={viewform} />
+               <Button variant="outline"><PersonCircle size={50} className="mx-2" onClick={viewform} /></Button> 
               </NavLink>
             </Nav>
             <Button className="mx-2" variant="outline-danger" onClick={logout}>
               Logout
             </Button>
             { total>10000 && <Button className="mx-2" variant="outline-success" onClick={premium}>
-              Use premium
+              { ispremium ? "premium":  "Get Premium"}
             </Button>}
-            {ispremium && <ThemeToggle/>}
-            {ispremium && <Download/>}
+            {ispremium && <Button variant="outline"><ThemeToggle/></Button>}
+            {ispremium && <Button variant="outline"><Download/></Button>}
           </Navbar.Collapse>
         </Container>
       </Navbar>

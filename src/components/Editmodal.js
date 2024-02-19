@@ -3,12 +3,15 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
 
 function EditModal(props) {
   const [Amount, setAmount] = useState(props.itemDet[1].Amount);
   const [Description, setDescription] = useState(props.itemDet[1].Description);
   const [Category, setCategory] = useState(props.itemDet[1].Category);
- 
+  const userId = useSelector((state) => state.auth.userId);
+  const target=userId.split("@")[0];
+
 
   const submitUpdate = async () => {
     const expenseData = {
@@ -18,8 +21,8 @@ function EditModal(props) {
       Category,
     };
     try {
-      const response = await axios.put(
-        `https://expensetracker-796b0-default-rtdb.firebaseio.com/exp/${props.itemDet[0]}.json`,
+    await axios.put(
+        `https://expensetracker-796b0-default-rtdb.firebaseio.com/${target}/exp/${props.itemDet[0]}.json`,
         expenseData
       );
       console.log("Expense Edited Successfully");
