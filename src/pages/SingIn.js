@@ -4,19 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 import { AuthActions } from "../Store/AuthSlice";
 
 const Singup = () => {
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const Navigate = useNavigate();
-  // const [isLoginPage, setIsLogin] = useState(false);
-  // const switchAuthModeHandler = () => {
-  //   setIsLogin((prevState) => !prevState);
-  // };
+
   const passwordRef = useRef();
   const emailRef = useRef();
-  // const cnfPasswordRef = useRef();
   const forget = () => {
     Navigate("/forget");
   };
@@ -25,17 +21,10 @@ const Singup = () => {
     e.preventDefault();
     const emailInput = emailRef.current.value;
     const passwordInput = passwordRef.current.value;
-    let cnfPassword;
-    // if (!isLoginPage) {
-    //   // console.log(isLoginPage);
-    //   cnfPassword = cnfPasswordRef.current.value;
-    //   if (cnfPassword !== passwordInput)toast.error('password not matched');
-    //   // console.log(emailInput, passwordInput, cnfPassword);
-    // }
 
     let url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCAddUzy56S_Fd9ynLhR2NrwXQPUB1M2i8";
-   
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCAddUzy56S_Fd9ynLhR2NrwXQPUB1M2i8";
+
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -47,15 +36,16 @@ const Singup = () => {
         "Content-Type": "application/json",
       },
     })
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json().then((data) => {
-          
-              localStorage.setItem("token", data.idToken);
-              localStorage.setItem("username", data.email);
-              toast.success('Logged in successfully');
-              dispatch(AuthActions.login({token:data.idToken, userId:data.email}))
-              Navigate("/hero");
+            localStorage.setItem("token", data.idToken);
+            localStorage.setItem("username", data.email);
+            toast.success("Logged in successfully");
+            dispatch(
+              AuthActions.login({ token: data.idToken, userId: data.email })
+            );
+            Navigate("/hero");
           });
         } else {
           return res.json().then((data) => {
@@ -68,23 +58,19 @@ const Singup = () => {
         }
       })
       .catch((err) => {
-       
-        toast.error(err.message)
+        toast.error(err.message);
       });
   };
 
   return (
-
-   <div className="row justify-content-center p-4 ">
+    <div className="row justify-content-center p-4 ">
       <div className="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
         <div className="card border border-light-subtle rounded-4">
           <div className="card-body p-3 p-md-4 p-xl-5">
             <div className="row">
               <div className="col-12">
                 <div className="mb-5">
-                  <h2 className="h4 text-center">
-                   Sign In
-                  </h2>
+                  <h2 className="h4 text-center">Sign In</h2>
                 </div>
               </div>
             </div>
@@ -157,14 +143,13 @@ const Singup = () => {
               <div className="col-12">
                 <hr className="mt-2 mb-2 border-secondary-subtle" />
                 <p className="m-0 text-secondary text-center">
-                 Don't have a account? 
+                  Don't have a account?
                   <NavLink
-                  className="link-primary text-decoration-none"
-                  onClick={()=>Navigate('/singup')}
+                    className="link-primary text-decoration-none"
+                    onClick={() => Navigate("/singup")}
                   >
                     Create new
                   </NavLink>
-
                   <NavLink onClick={forget}>
                     <u>Forgot Password</u>
                   </NavLink>
@@ -174,7 +159,7 @@ const Singup = () => {
           </div>
         </div>
       </div>
-    </div> 
+    </div>
     /* // </section> */
   );
 };
