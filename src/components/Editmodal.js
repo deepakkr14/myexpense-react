@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useSelector, useDispatch } from "react-redux";
+import {toast} from 'react-toastify'  
 
 function EditModal(props) {
   const [Amount, setAmount] = useState(props.itemDet[1].Amount);
@@ -26,9 +27,13 @@ function EditModal(props) {
         expenseData
       );
       console.log("Expense Edited Successfully");
+      toast.success('Expense Edited successfully');
+
       props.handleClose();
     } catch (error) {
       console.log(error);
+      toast.error(error);
+
     }
   };
 

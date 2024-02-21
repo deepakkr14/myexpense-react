@@ -7,6 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Stats from "../components/Stats";
 import Charts from "../components/chart";
 import RecTable from "../components/recTable";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import Toast from '../components/Toast'
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import AuthData from "../Store/AuthSlice";
@@ -33,7 +36,6 @@ const Hero = () => {
     setShowEditModal(false);
   };
   const handleShow = () => setShowEditModal(true);
-
   // FETCHING DATA FROM  FIREBASE
   const fetchUserData = async () => {
     try {
@@ -42,17 +44,22 @@ const Hero = () => {
       );
       const response2 = await axios(
         `https://expensetracker-796b0-default-rtdb.firebaseio.com/${target}/user.json`
-      );
-      if (response.status === 200 ) {
-        if (response.data === null) {
-          setTableData([]);
+        );
+        console.log(response,response2)
+        console.log('store',expensesT)
+        if (response.status === 200) {
+          if (response.data === null) {
+            setTableData([]);
         }
-        // console.log(response)
         else {
           setTableData(Object.entries(response.data));
-          dispatch(ExpenseActions.addExpense({exp:Object.entries(response.data),inc: Object.entries(response2.data)}));
-          // dispatch(ExpenseActions.addExpense(Object.entries({Exp:response.data,Inc:response2.data})));
-console.log(response.data,    "fdfdf",response2.data)        }
+          dispatch(
+            ExpenseActions.addExpense({
+              exp: Object.entries(response.data)?Object.entries(response.data):[],
+              inc: Object.entries(response2.data) ? Object.entries(response2.data) :[],
+            })
+          );
+        }
       }
     } catch (error) {
       console.log(error);
@@ -81,19 +88,20 @@ console.log(response.data,    "fdfdf",response2.data)        }
           Amount,
           Category,
         };
-        console.log(expenseData);
 
         const response = await axios.post(
           `https://expensetracker-796b0-default-rtdb.firebaseio.com/${target}/exp.json`,
           expenseData
         );
-        console.log("expense added succesfully");
+        toast.success("Expense added successfully");
         setAmount("");
         setDescription("");
         fetchUserData();
         // dispatch(ExpenseActions.addExpense(expenseData))
       } catch (err) {
         console.log(err);
+        toast.error(err);
+
       }
     }
   };
@@ -109,15 +117,16 @@ console.log(response.data,    "fdfdf",response2.data)        }
         `https://expensetracker-796b0-default-rtdb.firebaseio.com/${target}/exp/${id}.json`
       );
       console.log(response);
-      console.log("Expense Deleted Successfully");
+      toast.success("Expense deleted successfully");
       // dispatch(ExpenseActions.deleteExpense(id))
       fetchUserData();
     } catch (error) {
       console.log(error);
+      toast.error(error);
     }
   };
 
-  const handleIncome=async(e)=>{
+  const handleIncome = async (e) => {
     e.preventDefault();
     const IncomeData = {
       id: Math.random(),
@@ -125,22 +134,21 @@ console.log(response.data,    "fdfdf",response2.data)        }
       IncCategory,
     };
     try {
-    const response = await axios.post(
-      `https://expensetracker-796b0-default-rtdb.firebaseio.com/${target}/user.json`,
-      IncomeData
-    );
-    console.log("Income added succesfully");
-    setIncAmount("");
-    fetchUserData();
-    // dispatch(ExpenseActions.addExpense(expenseData))
-  } catch (err) {
-    console.log(err);
-  }
-  }
+      const response = await axios.post(
+        `https://expensetracker-796b0-default-rtdb.firebaseio.com/${target}/user.json`,
+        IncomeData
+      );
+      console.log("Income added succesfully");
+      setIncAmount("");
+      fetchUserData();
+      // dispatch(ExpenseActions.addExpense(expenseData))
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Fragment>
       <Navbar />
-
       <Stats />
       {show && (
         <Modal
@@ -150,7 +158,7 @@ console.log(response.data,    "fdfdf",response2.data)        }
         />
       )}
       <div className="row">
-        <div className="col">
+        <div className="col-md-8">
           <div className="card  col m-4">
             <div className="row">
               <div className="col">
@@ -166,7 +174,7 @@ console.log(response.data,    "fdfdf",response2.data)        }
             </div>
 
             <div className="card-body">
-              <form >
+              <form>
                 <div className="row">
                   <div className="pr-1 col-md-6">
                     <div className="form-group">
@@ -249,12 +257,14 @@ console.log(response.data,    "fdfdf",response2.data)        }
                 </div>
                 <div className="row">
                   <div className="col">
-                    <Button onClick={handleExpense}className=" btn-dark mt-3">
+                    <Button onClick={handleExpense} className=" btn-dark mt-3">
                       Add Expense
                     </Button>
                   </div>
                   <div className="col">
-                    <Button onClick={handleIncome} className=" btn-dark mt-3">Add Income</Button>
+                    <Button onClick={handleIncome} className=" btn-dark mt-3">
+                      Add Income
+                    </Button>
                   </div>
                 </div>
                 <div className="clearfix"></div>
@@ -263,7 +273,7 @@ console.log(response.data,    "fdfdf",response2.data)        }
           </div>
         </div>
         <div className="col">
-          <Charts  data={TableData}/>
+          <Charts data={TableData} />
         </div>
       </div>
       <RecTable data={TableData} edit={editExp} delete={deleteExp} />

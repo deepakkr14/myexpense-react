@@ -2,6 +2,7 @@ import React from "react";
 import { PencilSquare, Trash } from "react-bootstrap-icons";
 
 const recTable = (props) => {
+  console.log(props.data)
   return (
     <div>
       <div className="strpied-tabled-with-hover card m-4">

@@ -25,6 +25,7 @@ const Navigationbar = () => {
 dispatch(AuthActions.premiumActivate())
  }
   const logout = () => {
+    localStorage.removeItem("username");
     localStorage.removeItem("token");
     dispatch(AuthActions.logOut())
     dispatch(ExpenseActions.deleteExpense())
@@ -57,7 +58,7 @@ dispatch(AuthActions.premiumActivate())
               Logout
             </Button>
             { total>10000 && <Button className="mx-2" variant="outline-success" onClick={premium}>
-              { ispremium ? "premium":  "Get Premium"}
+              { ispremium ? "You are premium user":  "Get Premium"}
             </Button>}
             {ispremium && <Button variant="outline"><ThemeToggle/></Button>}
             {ispremium && <Button variant="outline"><Download/></Button>}

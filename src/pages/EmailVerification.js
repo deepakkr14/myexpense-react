@@ -1,8 +1,9 @@
 import React, { useEffect, useState, Fragment } from "react";
-import {  Button } from "react-bootstrap";
+import {  Button,Card} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const EmailVerification = () => {
   const Navigate = useNavigate();
   const [inProgress, setInProgress] = useState(false);
@@ -25,7 +26,7 @@ const EmailVerification = () => {
         if (res.ok) {
           return res.json().then((data) => {
             console.log(data);
-            alert(`link sent succesfully`);
+            toast.success('link sent succesfully')
             setInProgress(true);
           });
         } else {
@@ -40,7 +41,7 @@ const EmailVerification = () => {
       })
 
       .catch((err) => {
-        alert(err.message);
+        toast.error(err.message);
       });
   };
   const autoDetect = () => {
@@ -78,7 +79,7 @@ const EmailVerification = () => {
 
   return (
     <Fragment>
-      <section className="p-5">
+      <Card className="p-5">
         <h2 style={{ fontFamily: "'Playfair Display', serif" }}>
           Congratulations on signing up!
         </h2>
@@ -96,20 +97,21 @@ const EmailVerification = () => {
             Send Link
           </Button>
           {inProgress && <div className="loader"></div>}
+          { inProgress && (<p>
           <h5>Didn't receive the email?</h5>
-          <p>
             Resend verification email{" "}
             <Button variant="link" onClick={emailVerification}>
               click here
             </Button>
-          </p>
+          </p>)}
           <p>
-            <Button variant="outline-danger" onClick={() => Navigate("/")}>
+            <Button variant="outline-danger" onClick={() => Navigate("/hero")}>
               Cancel
             </Button>
           </p>
+        
         </div>
-      </section>
+      </Card>
     </Fragment>
   );
 };

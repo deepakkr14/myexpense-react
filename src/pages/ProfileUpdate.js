@@ -1,9 +1,11 @@
 import React, { useEffect, Fragment, useState } from "react";
 import "./profile.css";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import {useSelector} from 'react-redux'
 const ProfileUpdate = (props) => {
+  const Navigate=useNavigate()
   const [Email, setEmail] = useState("");
   const [emailStatus, Verified] = useState(false);
   const [newName, setName] = useState("");
@@ -62,7 +64,7 @@ const ProfileUpdate = (props) => {
     } catch (error) {
       console.log(error);
       alert("Error in updating user information");
-      window.location = "/";
+      window.location = "/hero";
     }
   };
   return (
@@ -113,6 +115,7 @@ const ProfileUpdate = (props) => {
               <Button
                 className={`Ebtn ${!emailStatus ? "on" : "off"}`}
                 variant="outline-primary"
+                onClick={()=>Navigate('/verify')}
                 disabled={emailStatus}
               >
                 {emailStatus ? "Email Verified" : "Verify Email Incomplete"}
